@@ -21,4 +21,5 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          milliseconds: 1000
+          folder: "backups" # Just putting it here
+          # Already given the default key so in example not going to use it.

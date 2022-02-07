@@ -1,11 +1,17 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'ipfs-backup'
+description: 'Create a backup of your repository to IPFS for a full-proof backup'
+author: 'Padmashree Jha (codewithpom)'
 inputs:
-  milliseconds: # change this
+  token: # Get a token from https://web3.storage
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: "Your token from Web3.storage"
+    # Just keeping my one as default but will advice you to use yours as it will be better
+    default: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDYwQ2NjRjMzREVENkIyYTgzNzJiYzM3MUY0NjgzRDA3OTJBMzlDNDQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NDQyMDg1NzE0NzUsIm5hbWUiOiJiYWNrdXAtdG8taXBmcy1kZWZhdWx0LWtleSJ9.4HRb6d53CJ5EcG3QbYJiOsoLyluJX8n7kAOsrqK1m9Q"
+    
+  folder:
+    required: true
+    description: "The folder in which the json file for the backup will be saved"
+    default: "IPFS-backup"
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'

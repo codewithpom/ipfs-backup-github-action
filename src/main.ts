@@ -1,19 +1,54 @@
 import * as core from '@actions/core'
+import {Web3Storage, getFilesFromPath} from 'web3.storage'
+import axios from 'axios'
+import child_process from 'child_process'
+import fs from 'fs'
 import {wait} from './wait'
 
 async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+  const token_: string = core.getInput('token')
+  const folder_to_store_archive: string = core.getInput('folder')
+  const client = new Web3Storage({
+    token: token_
+  })
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+  const files = await getFilesFromPath('.', {
+    hidden: true
+  })
 
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
+  for (const file of files) {
+    const arr = file.name.split('/')
+    arr.splice(0, 2)
+    file.name = arr.join('/')
   }
+  // console.log(files)
+  core.debug('Uploading files')
+  // @ts-ignore
+  const cid: string = await client.put(files)
+  const time = Math.floor(new Date().getTime() / 1000)
+  const lastCommitHash = child_process.execSync('git show -s --format=%H')
+  const lastCommitMessage = child_process.execSync(
+    "git log -1 --oneline --format=%s | sed 's/^.*: //'"
+  )
+  if (!fs.existsSync(folder_to_store_archive)) {
+    fs.mkdirSync(folder_to_store_archive, {})
+  }
+  fs.writeFileSync(
+    `${folder_to_store_archive}/${time}.json`,
+    JSON.stringify({
+      TimeWhenArchiveWasMade: time.toString(),
+      LastCommitHash: lastCommitHash,
+      LastCommitMessage: lastCommitMessage,
+      UrlToIPFS: `https://${cid}.ipfs.dweb.link`
+    })
+  )
+
+  wait(5000)
+  axios.delete(`https://api.web3.storage/user/uploads/${cid}`, {
+    headers: {
+      authorization: `Bearer ${token_}`
+    }
+  })
 }
 
 run()
