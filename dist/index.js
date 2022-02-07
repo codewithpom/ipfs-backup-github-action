@@ -46,9 +46,9 @@ const fs_1 = __importDefault(__nccwpck_require__(5747));
 const wait_1 = __nccwpck_require__(5817);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        core.debug("Starting");
+        console.log('Starting');
         const token_ = core.getInput('token');
-        core.debug(`Token is ${token_}`);
+        console.log(`Token is ${token_}`);
         const folder_to_store_archive = core.getInput('folder');
         const client = new web3_storage_1.Web3Storage({
             token: token_

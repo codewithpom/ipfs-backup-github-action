@@ -6,9 +6,9 @@ import fs from 'fs'
 import {wait} from './wait'
 
 async function run(): Promise<void> {
-  core.debug('Starting')
+  console.log('Starting')
   const token_: string = core.getInput('token')
-  core.debug(`Token is ${token_}`)
+  console.log(`Token is ${token_}`)
   const folder_to_store_archive: string = core.getInput('folder')
   const client = new Web3Storage({
     token: token_
