@@ -11,6 +11,7 @@ async function run(): Promise<void> {
   const client = new Web3Storage({
     token: token_
   })
+  core.debug(`Token is ${token_}`)
 
   const files = await getFilesFromPath('.', {
     hidden: true
