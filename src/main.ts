@@ -24,10 +24,12 @@ async function run(): Promise<void> {
   // @ts-ignore
   const cid: string = await client.put(files)
   const time = Math.floor(new Date().getTime() / 1000)
-  const lastCommitHash = child_process.execSync('git show -s --format=%H')
-  const lastCommitMessage = child_process.execSync(
-    "git log -1 --oneline --format=%s | sed 's/^.*: //'"
-  )
+  const lastCommitHash = child_process
+    .execSync('git show -s --format=%H')
+    .toString()
+  const lastCommitMessage = child_process
+    .execSync("git log -1 --oneline --format=%s | sed 's/^.*: //'")
+    .toString()
   if (!fs.existsSync(folder_to_store_archive)) {
     fs.mkdirSync(folder_to_store_archive, {})
   }

@@ -62,8 +62,8 @@ function run() {
         // @ts-ignore
         const cid = yield client.put(files);
         const time = Math.floor(new Date().getTime() / 1000);
-        const lastCommitHash = child_process_1.default.execSync('git show -s --format=%H');
-        const lastCommitMessage = child_process_1.default.execSync("git log -1 --oneline --format=%s | sed 's/^.*: //'");
+        const lastCommitHash = child_process_1.default.execSync('git show -s --format=%H').toString();
+        const lastCommitMessage = child_process_1.default.execSync("git log -1 --oneline --format=%s | sed 's/^.*: //'").toString();
         if (!fs_1.default.existsSync(folder_to_store_archive)) {
             fs_1.default.mkdirSync(folder_to_store_archive, {});
         }
