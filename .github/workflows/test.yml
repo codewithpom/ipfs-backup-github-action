@@ -23,3 +23,6 @@ jobs:
         with:
           folder: "backups" # Just putting it here
           # Already given the default key so in example not going to use it.
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Created backup
